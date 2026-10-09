@@ -2,7 +2,11 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-async function assertAdmin(supabase: any, userId: string) {
+async function assertAdmin(
+  supabase: { from: (t: "user_roles") => any },
+  userId: string,
+) {
+  if (!userId) throw new Error("يجب تسجيل الدخول أولًا");
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
@@ -84,7 +88,10 @@ export const addAdmin = createServerFn({ method: "POST" })
         password: data.password,
         email_confirm: true,
       });
-      if (error || !created.user) throw new Error("تعذر إنشاء الحساب: " + (error?.message ?? ""));
+      if (error || !created.user) {
+        console.error(error);
+        throw new Error("تعذر إنشاء الحساب، تأكد من البريد وكلمة المرور");
+      }
       user = created.user;
     } else if (data.password) {
       const { error } = await sb.auth.admin.updateUserById(user.id, {

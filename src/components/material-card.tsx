@@ -1,3 +1,4 @@
+import { isSafeHttpsUrl } from "@/lib/security";
 import { useState } from "react";
 import { Download, ExternalLink, FileText, Loader2, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -18,7 +19,8 @@ async function getSignedUrl(path: string, download?: string) {
     .from("materials")
     .createSignedUrl(path, 3600, download ? { download } : undefined);
   if (error || !data?.signedUrl) {
-    throw new Error(error?.message ?? "تعذّر تجهيز رابط الملف");
+    if (error) console.error(error);
+    throw new Error("تعذّر تجهيز رابط الملف، حاول مرة أخرى");
   }
   return data.signedUrl;
 }
@@ -33,17 +35,29 @@ export function MaterialCard({
   const [busy, setBusy] = useState<"open" | "download" | null>(null);
   const isCourse = material.kind === "course";
   const hasFile = Boolean(material.file_path);
+  const videoUrl = isSafeHttpsUrl(material.video_url) ? material.video_url.trim() : null;
 
   const handle = async (mode: "open" | "download") => {
     if (!material.file_path) return;
     setBusy(mode);
+    // Open the tab synchronously so popup blockers allow it, then point it at the signed URL.
+    const tab = mode === "open" ? window.open("about:blank", "_blank") : null;
+    if (tab) tab.opener = null;
     try {
       const url = await getSignedUrl(
         material.file_path,
         mode === "download" ? (material.file_name ?? `${material.title}.pdf`) : undefined,
       );
-      window.open(url, "_blank", "noopener,noreferrer");
+      if (tab) tab.location.href = url;
+      else if (mode === "download") {
+        const a = document.createElement("a");
+        a.href = url;
+        a.rel = "noopener noreferrer";
+        a.click();
+      } else window.open(url, "_blank", "noopener,noreferrer");
+      toast.success(mode === "download" ? "بدأ تنزيل الملف" : "تم فتح الملف");
     } catch (err) {
+      tab?.close();
       toast.error(err instanceof Error ? err.message : "حدث خطأ غير متوقع");
     } finally {
       setBusy(null);
@@ -89,9 +103,9 @@ export function MaterialCard({
       ) : null}
 
       <div className="mt-auto flex gap-2">
-        {material.video_url ? (
+        {videoUrl ? (
           <Button asChild className="flex-1" size="sm" variant="gold">
-            <a href={material.video_url} target="_blank" rel="noopener noreferrer">
+            <a href={videoUrl} target="_blank" rel="noopener noreferrer">
               <PlayCircle className="size-4" />
               مشاهدة الحصة
             </a>
@@ -105,7 +119,7 @@ export function MaterialCard({
               onClick={() => handle("open")}
               disabled={busy !== null}
               size="sm"
-              variant={material.video_url ? "outline" : "gold"}
+              variant={videoUrl ? "outline" : "gold"}
             >
               {busy === "open" ? (
                 <Loader2 className="size-4 animate-spin" />
@@ -114,7 +128,7 @@ export function MaterialCard({
               )}
               فتح الملف
             </Button>
-            {!material.video_url ? (
+            {!videoUrl ? (
               <Button
                 variant="outline"
                 size="sm"
