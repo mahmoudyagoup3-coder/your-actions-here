@@ -45,7 +45,7 @@ export function AiAssistant() {
       </Button>
 
       {open ? (
-        <div className="fixed bottom-24 left-5 z-50 flex h-[30rem] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-chat-border bg-chat-surface text-chat-surface-foreground shadow-lift">
+        <div dir="rtl" className="fixed bottom-24 left-5 z-50 flex h-[30rem] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-chat-border bg-chat-surface text-chat-surface-foreground shadow-lift">
           <header className="flex items-center gap-2 border-b border-chat-border bg-chat-header px-4 py-3">
             <span className="flex size-9 items-center justify-center rounded-full bg-chat-accent text-chat-accent-foreground">
               <Bot className="size-5" />
@@ -101,9 +101,17 @@ export function AiAssistant() {
             ) : null}
 
             {error ? (
-              <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                تعذّر الاتصال بـ ليلا. حاول مرة أخرى.
-              </p>
+              /maintenance/.test(error.message) ? (
+                <p className="rounded-xl bg-chat-bubble px-3 py-2 text-xs text-muted-foreground">
+                  ليلا في استراحة قصيرة للصيانة 🌙 يمكنك تصفّح الكتب والمذكرات مباشرة من المراحل الدراسية، وستعود قريبًا.
+                </p>
+              ) : (
+                <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">
+                  {/429|كثيرة|مشغولة/.test(error.message)
+                    ? "أرسلت رسائل كثيرة بسرعة. انتظر دقيقة ثم حاول مجددًا."
+                    : "تعذّر الاتصال بـ ليلا. حاول مرة أخرى."}
+                </p>
+              )
             ) : null}
           </div>
 
