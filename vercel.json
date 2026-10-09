@@ -1,0 +1,4 @@
+{
+  "buildCommand": "NITRO_PRESET=vercel vite build",
+  "installCommand": "npm install --include=dev"
+}
