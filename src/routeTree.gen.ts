@@ -10,33 +10,171 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminsRouteImport } from './routes/_authenticated/admins'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as StageStageIndexRouteImport } from './routes/stage.$stage.index'
+import { Route as StageStageLevelRouteImport } from './routes/stage.$stage.$level'
+import { Route as StageStageLevelSubjectRouteImport } from './routes/stage.$stage.$level.$subject'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminsRoute = AuthenticatedAdminsRouteImport.update({
+  id: '/admins',
+  path: '/admins',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StageStageIndexRoute = StageStageIndexRouteImport.update({
+  id: '/stage/$stage/',
+  path: '/stage/$stage/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StageStageLevelRoute = StageStageLevelRouteImport.update({
+  id: '/stage/$stage/$level',
+  path: '/stage/$stage/$level',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StageStageLevelSubjectRoute = StageStageLevelSubjectRouteImport.update({
+  id: '/$subject',
+  path: '/$subject',
+  getParentRoute: () => StageStageLevelRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/admins': typeof AuthenticatedAdminsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
+  '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
+  '/stage/$stage/': typeof StageStageIndexRoute
+  '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/admins': typeof AuthenticatedAdminsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
+  '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
+  '/stage/$stage': typeof StageStageIndexRoute
+  '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admins': typeof AuthenticatedAdminsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/chat': typeof ApiChatRoute
+  '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
+  '/stage/$stage/': typeof StageStageIndexRoute
+  '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/search'
+    | '/admin'
+    | '/admins'
+    | '/dashboard'
+    | '/api/chat'
+    | '/stage/$stage/$level'
+    | '/stage/$stage/'
+    | '/stage/$stage/$level/$subject'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/search'
+    | '/admin'
+    | '/admins'
+    | '/dashboard'
+    | '/api/chat'
+    | '/stage/$stage/$level'
+    | '/stage/$stage'
+    | '/stage/$stage/$level/$subject'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/reset-password'
+    | '/search'
+    | '/_authenticated/admin'
+    | '/_authenticated/admins'
+    | '/_authenticated/dashboard'
+    | '/api/chat'
+    | '/stage/$stage/$level'
+    | '/stage/$stage/'
+    | '/stage/$stage/$level/$subject'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SearchRoute: typeof SearchRoute
+  ApiChatRoute: typeof ApiChatRoute
+  StageStageLevelRoute: typeof StageStageLevelRouteWithChildren
+  StageStageIndexRoute: typeof StageStageIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +186,122 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admins': {
+      id: '/_authenticated/admins'
+      path: '/admins'
+      fullPath: '/admins'
+      preLoaderRoute: typeof AuthenticatedAdminsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stage/$stage/': {
+      id: '/stage/$stage/'
+      path: '/stage/$stage'
+      fullPath: '/stage/$stage/'
+      preLoaderRoute: typeof StageStageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stage/$stage/$level': {
+      id: '/stage/$stage/$level'
+      path: '/stage/$stage/$level'
+      fullPath: '/stage/$stage/$level'
+      preLoaderRoute: typeof StageStageLevelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stage/$stage/$level/$subject': {
+      id: '/stage/$stage/$level/$subject'
+      path: '/$subject'
+      fullPath: '/stage/$stage/$level/$subject'
+      preLoaderRoute: typeof StageStageLevelSubjectRouteImport
+      parentRoute: typeof StageStageLevelRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminsRoute: typeof AuthenticatedAdminsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminsRoute: AuthenticatedAdminsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface StageStageLevelRouteChildren {
+  StageStageLevelSubjectRoute: typeof StageStageLevelSubjectRoute
+}
+
+const StageStageLevelRouteChildren: StageStageLevelRouteChildren = {
+  StageStageLevelSubjectRoute: StageStageLevelSubjectRoute,
+}
+
+const StageStageLevelRouteWithChildren = StageStageLevelRoute._addFileChildren(
+  StageStageLevelRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SearchRoute: SearchRoute,
+  ApiChatRoute: ApiChatRoute,
+  StageStageLevelRoute: StageStageLevelRouteWithChildren,
+  StageStageIndexRoute: StageStageIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

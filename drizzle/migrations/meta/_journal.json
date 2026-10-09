@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791130646670,
+      "tag": "0000_create_library_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791217532584,
+      "tag": "0001_add_extended_library_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791217584787,
+      "tag": "0002_create_full_library_materials",
+      "breakpoints": true
+    }
+  ]
+}

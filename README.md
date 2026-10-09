@@ -27,3 +27,7 @@ npm run dev
 - TypeScript
 - React
 - Tailwind CSS
+
+## External hosting (Vercel / Cloudflare)
+- Build: `bun install && bun run build`. Uses TanStack Start SSR; nested routes are server-rendered, so no SPA rewrites are needed.
+- Required env vars: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (plus `SUPABASE_SERVICE_ROLE_KEY` and AI key for chat/admin server functions).
