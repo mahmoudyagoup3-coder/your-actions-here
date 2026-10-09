@@ -1,3 +1,4 @@
+import { buildStoragePath, isSafeHttpsUrl } from "@/lib/security";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
@@ -107,7 +108,12 @@ const materialSchema = z.object({
   curriculumType: z.string().optional(),
   kind: z.enum(["book", "note", "worksheet", "course"]),
   unit: z.string().trim().max(60).optional(),
-  videoUrl: z.string().trim().max(500).optional(),
+  videoUrl: z
+    .string()
+    .trim()
+    .max(500, "الرابط طويل جدًا")
+    .refine((v) => v === "" || isSafeHttpsUrl(v), "رابط الفيديو يجب أن يبدأ بـ https:// فقط")
+    .optional(),
 });
 
 const MAX_FILE_MB = 25;
@@ -282,8 +288,8 @@ function AdminPage() {
         toast.error("يرجى إدخال رابط الفيديو للحصة");
         return;
       }
-      if (!/^https?:\/\//i.test(form.videoUrl.trim())) {
-        toast.error("رابط الفيديو يجب أن يبدأ بـ http أو https");
+      if (!isSafeHttpsUrl(form.videoUrl.trim())) {
+        toast.error("رابط الفيديو يجب أن يبدأ بـ https:// فقط");
         return;
       }
     } else if (!form.id && !file) {
@@ -306,17 +312,21 @@ function AdminPage() {
     }
 
     setSaving(true);
+    const progressId = file ? toast.loading("جارٍ رفع الملف…") : undefined;
     try {
       let filePath: string | undefined;
       if (file) {
-        const trackPath = form.curriculumType ? `/${form.curriculumType}` : "";
-        const path = `${form.stage}/${form.level}${trackPath}/${crypto.randomUUID()}.pdf`;
+        const path = buildStoragePath(form.stage, form.level, form.curriculumType);
         const { error: upErr } = await supabase.storage
           .from("materials")
           .upload(path, file, { contentType: "application/pdf", upsert: false });
-        if (upErr) throw new Error(`تعذّر رفع الملف: ${upErr.message}`);
+        if (upErr) {
+          console.error(upErr);
+          throw new Error("تعذّر رفع الملف، حاول مرة أخرى");
+        }
         filePath = path;
       }
+      if (progressId !== undefined) toast.dismiss(progressId);
 
       const payload = {
         title: parsed.data.title,
@@ -337,7 +347,8 @@ function AdminPage() {
         const { error } = await supabase.from("library_materials").update(payload).eq("id", form.id);
         if (error) {
           if (filePath) await supabase.storage.from("materials").remove([filePath]);
-          throw new Error(error.message);
+          console.error(error);
+          throw new Error("تعذّر حفظ التعديلات");
         }
         if (filePath && form.currentPath && form.currentPath !== filePath) {
           await supabase.storage.from("materials").remove([form.currentPath]);
@@ -349,7 +360,8 @@ function AdminPage() {
           .insert({ ...payload, file_path: filePath ?? null, created_by: user?.id ?? null });
         if (error) {
           if (filePath) await supabase.storage.from("materials").remove([filePath]);
-          throw new Error(error.message);
+          console.error(error);
+          throw new Error("تعذّرت إضافة الملف");
         }
         toast.success("تمت إضافة الملف بنجاح");
       }
@@ -358,6 +370,7 @@ function AdminPage() {
       setFile(null);
       await queryClient.invalidateQueries();
     } catch (err) {
+      if (progressId !== undefined) toast.dismiss(progressId);
       toast.error(err instanceof Error ? err.message : "حدث خطأ أثناء الحفظ");
     } finally {
       setSaving(false);
@@ -370,7 +383,8 @@ function AdminPage() {
     setDeleteTarget(null);
     const { error } = await supabase.from("library_materials").delete().eq("id", target.id);
     if (error) {
-      toast.error(`تعذّر الحذف: ${error.message}`);
+      console.error(error);
+      toast.error("تعذّر الحذف، حاول مرة أخرى");
       return;
     }
     if (target.file_path) {
