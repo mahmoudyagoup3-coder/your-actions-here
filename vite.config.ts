@@ -9,7 +9,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // On Vercel (VERCEL=1 is set automatically during builds) emit Vercel's
 // Build Output API (.vercel/output) so SSR + API routes become serverless functions.
 // Everywhere else keep the default target used by Lovable hosting.
-const isVercel = Boolean(process.env.VERCEL);
+const isVercel = Boolean(process.env["VERCEL"]);
 
 export default defineConfig({
   ...(isVercel ? { nitro: { preset: "vercel" } } : {}),
