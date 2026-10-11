@@ -11,3 +11,4 @@
 
 - Keep the uploaded Sudanese hero artwork as the home hero because the user explicitly preferred the original image over a CSS reconstruction.
 - Keep the app on TanStack Start SSR routing for portable hosting; do not add SPA fallback rewrites because nested routes are server-rendered.
+- Vercel builds use the nitro "vercel" preset only when VERCEL is set (vite.config.ts); Lovable hosting keeps its default target because the sandbox forces it.
