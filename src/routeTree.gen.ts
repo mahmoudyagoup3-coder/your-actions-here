@@ -17,7 +17,6 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminsRouteImport } from './routes/_authenticated/admins'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as StageStageIndexRouteImport } from './routes/stage.$stage.index'
 import { Route as StageStageLevelRouteImport } from './routes/stage.$stage.$level'
 import { Route as StageStageLevelSubjectRouteImport } from './routes/stage.$stage.$level.$subject'
@@ -61,11 +60,6 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StageStageIndexRoute = StageStageIndexRouteImport.update({
   id: '/stage/$stage/',
   path: '/stage/$stage/',
@@ -90,7 +84,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/admins': typeof AuthenticatedAdminsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/api/chat': typeof ApiChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage/': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -103,7 +96,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/admins': typeof AuthenticatedAdminsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/api/chat': typeof ApiChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -118,7 +110,6 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/admins': typeof AuthenticatedAdminsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/api/chat': typeof ApiChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage/': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -133,7 +124,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admins'
     | '/dashboard'
-    | '/api/chat'
     | '/stage/$stage/$level'
     | '/stage/$stage/'
     | '/stage/$stage/$level/$subject'
@@ -146,7 +136,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admins'
     | '/dashboard'
-    | '/api/chat'
     | '/stage/$stage/$level'
     | '/stage/$stage'
     | '/stage/$stage/$level/$subject'
@@ -160,7 +149,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/admins'
     | '/_authenticated/dashboard'
-    | '/api/chat'
     | '/stage/$stage/$level'
     | '/stage/$stage/'
     | '/stage/$stage/$level/$subject'
@@ -172,7 +160,6 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
-  ApiChatRoute: typeof ApiChatRoute
   StageStageLevelRoute: typeof StageStageLevelRouteWithChildren
   StageStageIndexRoute: typeof StageStageIndexRoute
 }
@@ -235,13 +222,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/stage/$stage/': {
       id: '/stage/$stage/'
       path: '/stage/$stage'
@@ -299,7 +279,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
-  ApiChatRoute: ApiChatRoute,
   StageStageLevelRoute: StageStageLevelRouteWithChildren,
   StageStageIndexRoute: StageStageIndexRoute,
 }
