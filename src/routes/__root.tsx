@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { AiAssistant } from "@/components/ai-assistant";
 
 
 import appCss from "../styles.css?url";
@@ -138,7 +137,6 @@ function RootComponent() {
         </main>
         <SiteFooter />
       </div>
-      <AiAssistant />
       <Toaster position="top-center" richColors />
 
     </QueryClientProvider>
