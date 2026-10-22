@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      laila_attempts: {
+        Row: {
+          correct_count: number
+          created_at: string
+          details: Json
+          difficulty: string | null
+          id: string
+          kind: string
+          level: string | null
+          question_count: number
+          score: number
+          stage: string | null
+          subject: string | null
+          total_count: number
+          user_id: string
+        }
+        Insert: {
+          correct_count?: number
+          created_at?: string
+          details?: Json
+          difficulty?: string | null
+          id?: string
+          kind: string
+          level?: string | null
+          question_count?: number
+          score?: number
+          stage?: string | null
+          subject?: string | null
+          total_count?: number
+          user_id: string
+        }
+        Update: {
+          correct_count?: number
+          created_at?: string
+          details?: Json
+          difficulty?: string | null
+          id?: string
+          kind?: string
+          level?: string | null
+          question_count?: number
+          score?: number
+          stage?: string | null
+          subject?: string | null
+          total_count?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       library_materials: {
         Row: {
           created_at: string

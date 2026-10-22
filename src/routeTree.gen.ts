@@ -17,6 +17,7 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminsRouteImport } from './routes/_authenticated/admins'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiLailaChatRouteImport } from './routes/api/laila-chat'
 import { Route as StageStageIndexRouteImport } from './routes/stage.$stage.index'
 import { Route as StageStageLevelRouteImport } from './routes/stage.$stage.$level'
 import { Route as StageStageLevelSubjectRouteImport } from './routes/stage.$stage.$level.$subject'
@@ -60,6 +61,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiLailaChatRoute = ApiLailaChatRouteImport.update({
+  id: '/api/laila-chat',
+  path: '/api/laila-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StageStageIndexRoute = StageStageIndexRouteImport.update({
   id: '/stage/$stage/',
   path: '/stage/$stage/',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/admins': typeof AuthenticatedAdminsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/laila-chat': typeof ApiLailaChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage/': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/admins': typeof AuthenticatedAdminsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/laila-chat': typeof ApiLailaChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/admins': typeof AuthenticatedAdminsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/api/laila-chat': typeof ApiLailaChatRoute
   '/stage/$stage/$level': typeof StageStageLevelRouteWithChildren
   '/stage/$stage/': typeof StageStageIndexRoute
   '/stage/$stage/$level/$subject': typeof StageStageLevelSubjectRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admins'
     | '/dashboard'
+    | '/api/laila-chat'
     | '/stage/$stage/$level'
     | '/stage/$stage/'
     | '/stage/$stage/$level/$subject'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admins'
     | '/dashboard'
+    | '/api/laila-chat'
     | '/stage/$stage/$level'
     | '/stage/$stage'
     | '/stage/$stage/$level/$subject'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/admins'
     | '/_authenticated/dashboard'
+    | '/api/laila-chat'
     | '/stage/$stage/$level'
     | '/stage/$stage/'
     | '/stage/$stage/$level/$subject'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
+  ApiLailaChatRoute: typeof ApiLailaChatRoute
   StageStageLevelRoute: typeof StageStageLevelRouteWithChildren
   StageStageIndexRoute: typeof StageStageIndexRoute
 }
@@ -222,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/laila-chat': {
+      id: '/api/laila-chat'
+      path: '/api/laila-chat'
+      fullPath: '/api/laila-chat'
+      preLoaderRoute: typeof ApiLailaChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stage/$stage/': {
       id: '/stage/$stage/'
       path: '/stage/$stage'
@@ -279,6 +299,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
+  ApiLailaChatRoute: ApiLailaChatRoute,
   StageStageLevelRoute: StageStageLevelRouteWithChildren,
   StageStageIndexRoute: StageStageIndexRoute,
 }
