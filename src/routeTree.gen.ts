@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as LailaRouteImport } from './routes/laila'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -34,6 +35,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LailaRoute = LailaRouteImport.update({
+  id: '/laila',
+  path: '/laila',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -85,6 +91,7 @@ const StageStageLevelSubjectRoute = StageStageLevelSubjectRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/laila': typeof LailaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/laila': typeof LailaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/laila': typeof LailaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/laila'
     | '/reset-password'
     | '/search'
     | '/admin'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/laila'
     | '/reset-password'
     | '/search'
     | '/admin'
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/laila'
     | '/reset-password'
     | '/search'
     | '/_authenticated/admin'
@@ -170,6 +182,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  LailaRoute: typeof LailaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
   ApiLailaChatRoute: typeof ApiLailaChatRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laila': {
+      id: '/laila'
+      path: '/laila'
+      fullPath: '/laila'
+      preLoaderRoute: typeof LailaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -297,6 +317,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  LailaRoute: LailaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
   ApiLailaChatRoute: ApiLailaChatRoute,
