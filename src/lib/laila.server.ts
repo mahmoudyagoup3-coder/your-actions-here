@@ -29,7 +29,7 @@ export interface QuizGenerationInput {
   stage: string;
   level: string;
   subject: string;
-  track?: string;
+  track?: string | undefined;
   difficulty: "easy" | "medium" | "hard";
   count: number;
   types: QuestionType[];
@@ -39,14 +39,14 @@ export interface EssayTopicInput {
   stage: string;
   level: string;
   subject: string;
-  track?: string;
+  track?: string | undefined;
   difficulty: "easy" | "medium" | "hard";
 }
 
 export interface StudentContext {
-  stage?: string;
-  level?: string;
-  subject?: string;
+  stage?: string | undefined;
+  level?: string | undefined;
+  subject?: string | undefined;
 }
 
 /** يقرأ مفتاح Gemini من متغيرات البيئة داخل المعالج فقط. */
@@ -62,10 +62,14 @@ const PERSONA = `أنتِ «ليلا»، مساعدة تعليمية ذكية و
 تجيبين بالعربية الفصحى المبسّطة، بإجابات قصيرة منظّمة تناسب الطالب، وتشرحين المفاهيم بأمثلة سهلة.
 تشجعين الطالب، وتقترحين خطوات مراجعة عملية، وتذكّرينه أن مكتبة اليعقوبي فيها كتب ومذكرات وأوراق عمل لكل موادّه.`;
 
-function stageLevelLine(input: { stage: string; level: string; track?: string }): string {
-  const stage = getStage(input.stage)?.name ?? input.stage;
-  const level = getLevel(input.stage, input.level)?.name ?? input.level;
-  const track = input.track ? trackName(input.stage, input.level, input.track) : "";
+function stageLevelLine(input: {
+  stage?: string | undefined;
+  level?: string | undefined;
+  track?: string | undefined;
+}): string {
+  const stage = (input.stage && getStage(input.stage)?.name) || input.stage || "";
+  const level = (input.stage && input.level && getLevel(input.stage, input.level)?.name) || input.level || "";
+  const track = input.track ? trackName(input.stage ?? "", input.level ?? "", input.track) : "";
   return `${stage} — ${level}${track ? ` — ${track}` : ""}`;
 }
 

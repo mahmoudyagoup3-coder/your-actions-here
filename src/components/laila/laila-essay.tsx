@@ -114,7 +114,7 @@ export function LailaEssay({
       return;
     }
     if (!("topic" in result)) {
-      toast.error(ERROR_MESSAGES.ai);
+      toast.error(ERROR_MESSAGES["ai"]);
       return;
     }
     setTopic(result.topic);

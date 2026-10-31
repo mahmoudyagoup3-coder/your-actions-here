@@ -192,12 +192,12 @@ export function MatchingView({
               )}
             >
               <span className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-laila-soft text-xs font-bold text-laila-strong">
-                {LETTERS[i]}
+                {LETTERS[i] ?? ""}
               </span>
               <span className="flex-1">{pair.left}</span>
               {links[i] != null ? (
                 <span className="rounded-full bg-laila-accent px-2 py-0.5 text-[10px] font-bold text-white">
-                  {LETTERS[links[i]]}
+                  {LETTERS[links[i] ?? 0] ?? ""}
                 </span>
               ) : null}
             </button>
@@ -276,7 +276,7 @@ export function correctAnswerText(question: QuizQuestion): string {
     case "true_false":
       return question.answer_bool ? "صح" : "خطأ";
     case "mcq":
-      return question.options[question.answer_index];
+      return question.options[question.answer_index] ?? "";
     case "fill_blank":
       return question.answer_text;
     case "matching":
