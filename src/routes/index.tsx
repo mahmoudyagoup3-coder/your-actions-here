@@ -7,6 +7,7 @@ import {
   Download,
   GraduationCap,
   Layers,
+  Moon,
   Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
