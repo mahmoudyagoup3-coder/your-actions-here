@@ -218,7 +218,7 @@ export function MatchingView({
               <span className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-laila-soft text-xs font-bold text-laila-strong">
                 {LETTERS[displayIdx]}
               </span>
-              <span className="flex-1">{pairs[pairIndex].right}</span>
+              <span className="flex-1">{pairs[pairIndex]?.right}</span>
             </button>
           ))}
         </div>
