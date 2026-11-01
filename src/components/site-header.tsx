@@ -40,6 +40,14 @@ export function SiteHeader() {
         </Link>
       ))}
       <Link
+        to="/laila"
+        className={linkClass}
+        activeProps={{ className: `${linkClass} ${activeClass}` }}
+        onClick={() => setOpen(false)}
+      >
+        غرفة ليلا
+      </Link>
+      <Link
         to="/search"
         className={linkClass}
         activeProps={{ className: `${linkClass} ${activeClass}` }}

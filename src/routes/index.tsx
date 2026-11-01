@@ -104,6 +104,16 @@ function HomePage() {
                 البحث في الملفات
               </Link>
             </Button>
+            <Button
+              asChild
+              size="lg"
+              className="h-14 gap-3 rounded-full bg-laila-accent px-10 text-lg font-bold text-white shadow-soft hover:bg-laila-accent/90"
+            >
+              <Link to="/laila">
+                <Moon className="size-4" />
+                غرفة ليلا الذكية
+              </Link>
+            </Button>
             </div>
           </div>
         </div>
