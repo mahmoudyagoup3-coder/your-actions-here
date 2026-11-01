@@ -340,3 +340,20 @@ body {
     transform: none;
   }
 }
+
+/* غرفة ليلا: خلفية بطاقة الترويسة بنية فاتحة */
+@utility laila-hero {
+  background-image:
+    radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1px),
+    linear-gradient(135deg, #b8814d, #a9713f 45%, #7a5230);
+  background-size: 18px 18px, auto;
+}
+
+@keyframes laila-select-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(169 113 63 / 0.45); }
+  100% { box-shadow: 0 0 0 14px rgb(169 113 63 / 0); }
+}
+
+@utility laila-pulse {
+  animation: laila-select-pulse 0.6s ease-out;
+}
