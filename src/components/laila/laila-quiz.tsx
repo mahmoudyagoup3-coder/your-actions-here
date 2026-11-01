@@ -110,7 +110,7 @@ export function LailaQuiz({
     const generated = "questions" in result ? result.questions : [];
     if (generated.length === 0) {
       setPhase("config");
-      toast.error(ERROR_MESSAGES.ai);
+      toast.error(ERROR_MESSAGES["ai"]);
       return;
     }
     setQuestions(generated);

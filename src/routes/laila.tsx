@@ -89,11 +89,16 @@ function LailaPage() {
 
   function pickStage(key: string) {
     const next = getStage(key) ?? STAGES[0];
+    if (!next) return;
     setStageKey(next.key);
     setLevelKey(next.levels[0]?.key ?? "");
     setTrackKey(undefined);
     setSubject("");
   }
+
+  const refetchAttempts = () => {
+    void attemptsQuery.refetch();
+  };
 
   function pickLevel(key: string) {
     setLevelKey(key);
@@ -138,7 +143,7 @@ function LailaPage() {
     stage: stageName(stageKey),
     level: levelName(stageKey, levelKey),
     subject: activeSubject,
-    track: activeTrack ? trackName(stageKey, levelKey, activeTrack) : undefined,
+    ...(activeTrack ? { track: trackName(stageKey, levelKey, activeTrack) } : {}),
   };
   const takenToday = quizzesTakenToday(attemptsQuery.data ?? []);
 

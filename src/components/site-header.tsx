@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { LayoutDashboard, Menu, Search, ShieldCheck, X } from "lucide-react";
+import { LayoutDashboard, Menu, Moon, Search, ShieldCheck, X } from "lucide-react";
 import logoAsset from "@/assets/logo-maktabat-al-yaqoubi.jpg.asset.json";
 
 const logoUrl = logoAsset.url;
@@ -39,6 +39,14 @@ export function SiteHeader() {
           {stage.name}
         </Link>
       ))}
+      <Link
+        to="/laila"
+        className={linkClass}
+        activeProps={{ className: `${linkClass} ${activeClass}` }}
+        onClick={() => setOpen(false)}
+      >
+        غرفة ليلا
+      </Link>
       <Link
         to="/search"
         className={linkClass}

@@ -143,9 +143,8 @@ export function MatchingView({
   const n = pairs.length;
   // ترتيب ثابت للأعمدة اليمنى يختلف عن الأعمدة اليسرى.
   const rightOrder = useMemo(() => {
-    const idx = Array.from({ length: n }, (_, i) => i);
     const shift = (question.question.length % n) || 1;
-    return idx.map((_, i) => idx[(i + shift) % n]);
+    return Array.from({ length: n }, (_, i) => (i + shift) % n);
   }, [n, question.question]);
 
   const [links, setLinks] = useState<Record<number, number>>({});
@@ -219,7 +218,7 @@ export function MatchingView({
               <span className="flex size-6 shrink-0 items-center justify-center rounded-lg bg-laila-soft text-xs font-bold text-laila-strong">
                 {LETTERS[displayIdx]}
               </span>
-              <span className="flex-1">{pairs[pairIndex].right}</span>
+              <span className="flex-1">{pairs[pairIndex]?.right}</span>
             </button>
           ))}
         </div>
