@@ -143,9 +143,8 @@ export function MatchingView({
   const n = pairs.length;
   // ترتيب ثابت للأعمدة اليمنى يختلف عن الأعمدة اليسرى.
   const rightOrder = useMemo(() => {
-    const idx = Array.from({ length: n }, (_, i) => i);
     const shift = (question.question.length % n) || 1;
-    return idx.map((_, i) => idx[(i + shift) % n]);
+    return Array.from({ length: n }, (_, i) => (i + shift) % n);
   }, [n, question.question]);
 
   const [links, setLinks] = useState<Record<number, number>>({});
