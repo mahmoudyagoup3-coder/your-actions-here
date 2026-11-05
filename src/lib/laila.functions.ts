@@ -51,7 +51,7 @@ function aiError(error: unknown): "maintenance" | "ai" {
 
 export const generateQuizFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => quizInputSchema.parse(input))
+  .validator((input: unknown) => quizInputSchema.parse(input))
   .handler(async ({ data, context }) => {
     // نظام الحصص: تحقق من الحد اليومي في الخادم لا في الواجهة فقط.
     const { count } = await context.supabase
@@ -70,7 +70,7 @@ export const generateQuizFn = createServerFn({ method: "POST" })
 
 export const createEssayTopicFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => essayTopicInputSchema.parse(input))
+  .validator((input: unknown) => essayTopicInputSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { count } = await context.supabase
       .from("laila_attempts")
@@ -88,7 +88,7 @@ export const createEssayTopicFn = createServerFn({ method: "POST" })
 
 export const gradeEssayFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => essayGradeInputSchema.parse(input))
+  .validator((input: unknown) => essayGradeInputSchema.parse(input))
   .handler(async ({ data, context }) => {
     try {
       const { gradeEssay } = await import("@/lib/laila.server");
