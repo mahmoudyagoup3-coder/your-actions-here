@@ -21,7 +21,7 @@ import {
 } from "@/lib/laila-schema";
 
 /** نموذج Google Gemini المستخدم في غرفة ليلا. */
-export const GEMINI_MODEL = "gemini-3.8-flash";
+export const GEMINI_MODEL = "gemini-3.6-flash";
 
 export { AI_MAINTENANCE };
 

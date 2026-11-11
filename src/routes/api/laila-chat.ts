@@ -52,36 +52,21 @@ export const Route = createFileRoute("/api/laila-chat")({
         }
 
         try {
-          const { streamText } = await import("ai");
-          const result = streamText({
+          const { generateText } = await import("ai");
+          const result = await generateText({
             model,
             system: buildChatSystem(body.context),
             messages: body.messages,
+            maxOutputTokens: 2048,
           });
-          // بث الرد نصًا: عند فشل النموذج تظهر رسالة ودية داخل الدردشة بدل رد فارغ.
-          const encoder = new TextEncoder();
-          const stream = new ReadableStream<Uint8Array>({
-            async start(controller) {
-              try {
-                for await (const chunk of result.textStream) {
-                  controller.enqueue(encoder.encode(chunk));
-                }
-              } catch (streamError) {
-                console.error("[laila-chat] stream failed", streamError);
-                controller.enqueue(
-                  encoder.encode("ليلا مشغولة قليلًا الآن 🌙 حاولي مرة أخرى بعد لحظات."),
-                );
-              } finally {
-                controller.close();
-              }
-            },
-          });
-          return new Response(stream, {
+          return new Response(result.text, {
             headers: { "content-type": "text/plain; charset=utf-8" },
           });
         } catch (error) {
-          console.error("[laila-chat] failed", error);
-          return Response.json({ error: "تعذّر الوصول إلى ليلا الآن." }, { status: 502 });
+          console.error("[laila-chat] failed", error instanceof Error ? error.name : "unknown");
+          return new Response("ليلا مشغولة قليلًا الآن 🌙 حاولي مرة أخرى بعد لحظات.", {
+            headers: { "content-type": "text/plain; charset=utf-8" },
+          });
         }
       },
     },
